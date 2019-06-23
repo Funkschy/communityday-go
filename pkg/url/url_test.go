@@ -7,18 +7,23 @@ import (
 )
 
 func TestFetchLinks(t *testing.T) {
-	html := "<html><body><a href=\"test.com\"/><a href=\"test.com\"/></body></html>"
+	html := "<html><body><a href=\"http://test.com\"/><a href=\"http://provinzial.com\"/></body></html>"
 	links, err := FetchLinks(strings.NewReader(html))
 	if err != nil {
 		t.Error("Konnte keine Links fetchen")
 		return
 	}
-	if len(links) != 2 {
-		t.Errorf("falsche Link Anzahl: Erwartet: 2, aber war: %d", len(links))
+
+	expected := []string{"http://test.com", "http://provinzial.com"}
+	if len(links) != len(expected) {
+		t.Errorf("falsche Link Anzahl: Erwartet: %d, aber war: %d", len(expected), len(links))
 		return
 	}
-	if links[0] != "test.com" {
-		t.Errorf("Link sollte test.com sein, aber war %s", links[0])
+
+	for i := 0; i < len(expected); i++ {
+		if links[i] != expected[i] {
+			t.Errorf("Link sollte %s sein, aber war %s", expected[i], links[i])
+		}
 	}
 }
 
