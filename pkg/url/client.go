@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const timeout = time.Second * 10
+const timeout = time.Second * 2
 
 var tlsConf = tls.Config{
 	InsecureSkipVerify: true,
