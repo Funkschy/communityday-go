@@ -38,7 +38,7 @@ func NewCrawler() Crawler {
 
 // Crawl startet von einer URL und durchsucht das gesamte Internet
 func (c *Crawler) Crawl(startURL string) {
-	start, _ := url.ParseURL("", startURL)
+	start, _ := url.ParseURL("", startURL, true)
 	c.jobs <- start
 
 	c.initThreadPool(numWorker)
@@ -78,7 +78,7 @@ func (c *Crawler) work(uri *u.URL) {
 	uriString := uri.String()
 
 	for _, nextLink := range c.visit(uri) {
-		uri, err := url.ParseURL(uriString, nextLink.String())
+		uri, err := url.ParseURL(uriString, nextLink.String(), true)
 		if err != nil {
 			log.Printf("Could not parse link %s of base %s", nextLink, uriString)
 			return
@@ -110,7 +110,7 @@ func (c *Crawler) visit(uri *u.URL) []*u.URL {
 	list := make([]*u.URL, numLinks, numLinks)
 
 	for i, link := range links {
-		uri, err := url.ParseURL(uriString, link)
+		uri, err := url.ParseURL(uriString, link, true)
 		if err != nil {
 			log.Printf("Could not parse link %s of base %s", link, uriString)
 			return emptyList
