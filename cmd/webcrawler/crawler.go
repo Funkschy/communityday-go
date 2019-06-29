@@ -10,11 +10,6 @@ import (
 
 const numWorker = 16
 
-type urlPair struct {
-	base string
-	link string
-}
-
 // Crawler besucht das gesamte Internet
 type Crawler struct {
 	sync.Map
